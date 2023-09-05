@@ -18,10 +18,12 @@ services:
       - ./html:/usr/share/nginx/html
     labels:
       - traefik.http.routers.haennowww.rule=Host(`${DOCKER_ENV_DOMAIN}`,`www.${DOCKER_ENV_DOMAIN}`)
+      - traefik.http.routers.haennowww.service=haennowww
+      - traefik.http.routers.haennowww.middlewares=auth
+      - traefik.http.services.haennowww.loadbalancer.server.port=80
       - traefik.http.routers.haennowww.entrypoints=https
       - traefik.http.routers.haennowww.tls=true
       - traefik.http.routers.haennowww.tls.certresolver=${DOCKER_ENV_CERT_RESOLVER}
-      - traefik.http.services.haennowww.loadbalancer.server.port=80
     environment:
       - NGINX_HOST=haennowww.${DOCKER_ENV_DOMAIN}
       - NGINX_PORT=80
