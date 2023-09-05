@@ -1,0 +1,36 @@
+version: "3.7"
+
+x-logging: &loki-logging
+  driver: json-file
+  options:
+    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+services:
+
+  haennowww:
+    hostname: haennowww
+    container_name: haennowww
+    image: nginx:1.23.3
+    restart: always
+    ports:
+      - 80
+    volumes:
+      - ./html:/usr/share/nginx/html
+    labels:
+      - traefik.http.routers.haennowww.rule=Host(`${DOCKER_ENV_DOMAIN}`,`www.${DOCKER_ENV_DOMAIN}`)
+      - traefik.http.routers.haennowww.entrypoints=https
+      - traefik.http.routers.haennowww.tls=true
+      - traefik.http.routers.haennowww.tls.certresolver=${DOCKER_ENV_CERT_RESOLVER}
+      - traefik.http.services.haennowww.loadbalancer.server.port=80
+    environment:
+      - NGINX_HOST=haennowww.${DOCKER_ENV_DOMAIN}
+      - NGINX_PORT=80
+
+    networks:
+      - internalnetwork
+    logging: *loki-logging
+
+networks:
+  internalnetwork:
+    name: internalnetwork
+    external: true
