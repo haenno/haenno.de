@@ -10,7 +10,7 @@ services:
   haennowww:
     hostname: haennowww
     container_name: haennowww
-    image: nginx:1.23.3
+    image: nginx:1.25.2
     restart: always
     ports:
       - 80
