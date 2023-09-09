@@ -15,9 +15,9 @@ if [ $(git -C $HAENNO_SCRIPT_DIR rev-list HEAD...origin/main --count) != 0 ]; th
     git -C $HAENNO_SCRIPT_DIR pull
     sudo chmod +x $HAENNO_SCRIPT_DIR/*.sh
 
-    sudo docker-compose -f prod-docker-compose.yml -p $HAENNO_SCRIPT_DIR stop
-    sudo docker-compose -f prod-docker-compose.yml -p $HAENNO_SCRIPT_DIR build
-    sudo docker-compose -f prod-docker-compose.yml -p $HAENNO_SCRIPT_DIR up -d
+    sudo docker-compose -f docker-compose.yml -p $HAENNO_SCRIPT_DIR stop
+    sudo docker-compose -f docker-compose.yml -p $HAENNO_SCRIPT_DIR build
+    sudo docker-compose -f docker-compose.yml -p $HAENNO_SCRIPT_DIR up -d
 
     echo "$now --> Remote git repo quick check haenno.de > Update done!"
 
